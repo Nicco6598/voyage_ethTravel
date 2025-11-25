@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ProductItem from './ProductItem';
+import TestimonialCard from './TestimonialCard';
+import DecorativeElements from './DecorativeElements';
 import { ProviderContext } from './ProviderContext';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 const initialProducts = [
   {
@@ -74,69 +76,85 @@ const ProductGallery = () => {
     if (sortOrder === 'price-low') return parseFloat(a.price) - parseFloat(b.price);
     if (sortOrder === 'price-high') return parseFloat(b.price) - parseFloat(a.price);
     if (sortOrder === 'rating') return b.rating - a.rating;
-    return 0; // Default is 'recommended'
+    return 0;
   });
 
   const locations = [...new Set(products.map(p => p.location))];
 
   return (
-    <section id="destinations" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <motion.div 
+    <section id="destinations" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+
+      {/* Section Header */}
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-12"
+        className="mb-16"
       >
-        <h2 className="section-title">Esplora le Destinazioni</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto">
-          Scopri esperienze di viaggio uniche pagabili con criptovalute. Ogni destinazione è stata selezionata con cura per offrirti un'avventura indimenticabile.
+        <div className="flex items-center gap-4 mb-6">
+          <DecorativeElements type="badge" text="[DESTINATIONS]" variant="outline" />
+          <DecorativeElements type="asterisk" />
+          <span className="label-sm text-gray-500">2024</span>
+        </div>
+
+        <h2 className="display-md mb-4">
+          it's - about <br />
+          journeys <DecorativeElements type="asterisk" /> ©24
+        </h2>
+
+        <p className="body-lg text-gray-600 max-w-2xl">
+          From timeless classics to bold statement pieces, our curated collection is designed to celebrate your unique style in every moment.
         </p>
       </motion.div>
 
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
+      {/* Filters & Sort */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
         <div className="flex flex-wrap gap-2">
-          <button 
-            onClick={() => setFilter('all')} 
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              filter === 'all' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            Tutti
-          </button>
-          <button 
-            onClick={() => setFilter('available')} 
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              filter === 'available' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            Disponibili
-          </button>
-          
-          {locations.map(location => (
-            <button 
-              key={location}
-              onClick={() => setFilter(location)} 
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                filter === location ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          <button
+            onClick={() => setFilter('all')}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${filter === 'all'
+              ? 'bg-black text-white border-2 border-black'
+              : 'bg-white text-black border border-gray-300 hover:border-black'
               }`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFilter('available')}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${filter === 'available'
+              ? 'bg-black text-white border-2 border-black'
+              : 'bg-white text-black border border-gray-300 hover:border-black'
+              }`}
+          >
+            Available
+          </button>
+
+          {locations.map(location => (
+            <button
+              key={location}
+              onClick={() => setFilter(location)}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${filter === location
+                ? 'bg-black text-white border-2 border-black'
+                : 'bg-white text-black border border-gray-300 hover:border-black'
+                }`}
             >
               {location}
             </button>
           ))}
         </div>
-        
+
         <div className="relative">
-          <select 
+          <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="appearance-none bg-white border border-gray-200 rounded-lg py-2 pl-4 pr-10 text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent"
+            className="appearance-none bg-white border border-gray-300 rounded-full py-2 pl-5 pr-10 text-sm font-medium hover:border-black transition-colors focus:outline-none focus:border-black"
           >
-            <option value="recommended">Consigliati</option>
-            <option value="price-low">Prezzo: Basso-Alto</option>
-            <option value="price-high">Prezzo: Alto-Basso</option>
-            <option value="rating">Valutazione</option>
+            <option value="recommended">Recommended</option>
+            <option value="price-low">Price: Low-High</option>
+            <option value="price-high">Price: High-Low</option>
+            <option value="rating">Rating</option>
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
@@ -144,27 +162,67 @@ const ProductGallery = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      {/* Products Grid - Editorial Asymmetric Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {sortedProducts.map((product, index) => (
           <motion.div
             key={product.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
+            className={index === 0 ? 'lg:col-span-2 lg:row-span-2' : ''}
           >
-            <ProductItem product={product} onPurchase={handlePurchase} />
+            <ProductItem
+              product={product}
+              onPurchase={handlePurchase}
+              featured={index === 0}
+            />
           </motion.div>
         ))}
-      </div>
-      
-      {sortedProducts.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">Nessun prodotto trovato con i filtri correnti.</p>
-          <button 
-            onClick={() => setFilter('all')}
-            className="mt-4 btn-secondary"
+
+        {/* Testimonial Card integrated in grid */}
+        {sortedProducts.length >= 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="hidden lg:block"
           >
-            Mostra Tutti
+            <TestimonialCard
+              quote="Booking my Maldives trip with crypto was seamless! The blockchain verification gave me complete peace of mind. Voyage is the future of travel."
+              author="Emma Rodriguez"
+              handle="@travelwithemma"
+              rating={5}
+              avatar="https://randomuser.me/api/portraits/women/44.jpg"
+            />
+          </motion.div>
+        )}
+      </div>
+
+      {/* Learn More Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+        className="mt-16"
+      >
+        <a href="#how-it-works" className="arrow-link text-lg">
+          Learn More
+          <svg className="arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </motion.div>
+
+      {/* Empty State */}
+      {sortedProducts.length === 0 && (
+        <div className="text-center py-20">
+          <p className="text-gray-500 text-lg mb-6">No destinations found with current filters.</p>
+          <button
+            onClick={() => setFilter('all')}
+            className="btn-secondary"
+          >
+            Show All
           </button>
         </div>
       )}
