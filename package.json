@@ -2,6 +2,7 @@
   "name": "eth_dapp-travel",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@11.25.0",
   "dependencies": {
     "@types/react": "18.2.51",
     "@types/react-dom": "18.2.18",
