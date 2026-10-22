@@ -1,0 +1,7 @@
+allowBuilds:
+  core-js: false
+  core-js-pure: false
+overrides:
+  'elliptic@>=6.0.0 <6.6.1': ^6.6.1
+  'ws@>=7.0.0 <7.5.11': ^7.5.11
+  'serialize-javascript@>=4.0.0 <7.0.5': ^7.0.5
